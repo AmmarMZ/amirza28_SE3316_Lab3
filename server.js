@@ -92,6 +92,19 @@ router.route('/bears').post(function(req, res)
             });
 
         });
+    })
+    .delete(function(req, res)
+    {
+        Bear.remove({
+            _id: req.params.bear_id
+        }, function(err, bear) 
+        {
+            if (err)
+            {
+                res.send(err);   
+            }
+            res.json({ message: 'Successfully deleted' });
+        });
     });
 
 

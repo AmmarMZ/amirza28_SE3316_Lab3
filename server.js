@@ -2,10 +2,10 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
-var message     = require('./app/models/message');
+var Bear     = require('./app/models/bear');
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/message'); 
+mongoose.connect('mongodb://localhost:27017/bears'); 
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -31,31 +31,31 @@ router.get('/', function(req, res) {
 
 // more routes for our API will happen here
 
-router.route('/message').post(function(req, res) 
+router.route('/bears').post(function(req, res) 
 {
-    var message = new message();      // create a new instance of the Bear model
-    message.details = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
-    message.save(function(err) 
+    var bear = new Bear();      // create a new instance of the Bear model
+    bear.name = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
+    bear.save(function(err) 
     {
         if (err)
         {
             res.send(err);
             
         }
-            res.json({ message: 'Message created!' });
+            res.json({ message: 'Bear created!' });
         });
 
     }) 
     .get(function(req, res) 
     {
-        message.find(function(err, message)
+        Bear.find(function(err, bears)
         {
             if (err)
             {
                 res.send(err);
             }
 
-            res.json(message);
+            res.json(bears);
         });
     });
     

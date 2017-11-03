@@ -2,10 +2,10 @@
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
-var Bear     = require('./app/models/bear');
+var message     = require('./app/models/message');
 
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/bears'); 
+mongoose.connect('mongodb://localhost:27017/message'); 
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -16,7 +16,7 @@ var port = process.env.PORT || 8080;        // set our port
 
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+var router = express.Router();              // get an instance of the express Route
 
 router.use(function(req, res, next) {
     // do logging
@@ -31,31 +31,31 @@ router.get('/', function(req, res) {
 
 // more routes for our API will happen here
 
-router.route('/bears').post(function(req, res) 
+router.route('/message').post(function(req, res) 
 {
-    var bear = new Bear();      // create a new instance of the Bear model
-    bear.name = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
-    bear.save(function(err) 
+    var message = new message();      // create a new instance of the Bear model
+    message.details = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
+    message.save(function(err) 
     {
         if (err)
         {
             res.send(err);
             
         }
-            res.json({ message: 'Bear created!' });
+            res.json({ message: 'Message created!' });
         });
 
     }) 
     .get(function(req, res) 
     {
-        Bear.find(function(err, bears)
+        message.find(function(err, message)
         {
             if (err)
             {
                 res.send(err);
             }
 
-            res.json(bears);
+            res.json(message);
         });
     });
     
@@ -106,7 +106,6 @@ router.route('/bears').post(function(req, res)
             res.json({ message: 'Successfully deleted' });
         });
     });
-
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

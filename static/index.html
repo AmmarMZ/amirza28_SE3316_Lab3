@@ -2,25 +2,57 @@
 <html>
     <head>
         <meta charset ="utf-8">
-        <script type = "text/javascript" src="static/script.js"></script>
     </head>
     
     <body>
-        
-         <textarea id="paragraph_text1" cols="50" rows="10"></textarea> 
-         <button id = "course1" > Course 1 send</button>  
+        <nav style = "float:right">
+         <textarea id="paragraph_text1" cols="50" rows="10"> </textarea> 
          </br>
+         <button style id = "course1" > Course 1 send</button>
+         <div id = 'course1Header'> Header for Course 1</div>
+         <ol id = "course1List">
+              <script type="text/javascript">
+                
+                    var url = "https://lab3-ammarmz.c9users.io:8080/api/message";
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", url);
+                    xhr.send(null);
+                    
+                    
+                    
+                    xhr.addEventListener('load',function()
+                    {
+                       var arr = xhr.responseText.split(',')
+                       
+                       for (var i in arr)
+                       {
+                            if ((i - 1)%3 ==0)
+                            {
+                                var ul = document.getElementById("course1List");
+                                var li = document.createElement("li");
+                                li.appendChild(document.createTextNode(arr[i]));
+                                ul.appendChild(li);
+                            }
+                       }
+                       
+                    });
+            
+                
+              </script>
+             
+         </ol>
+         </nav>
+        
         <script type="text/javascript">
             document.getElementById('course1').addEventListener("click", function(event) 
             {
                 (function(event)
                 {
-                    
                     var textArea = document.getElementById('paragraph_text1');
                     var text = textArea.value;
                     
                     var url = "https://lab3-ammarmz.c9users.io:8080/api/message";
-                    var params = "name: HELLO" + text;
+                    var params = "name=".concat(text);
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", url, true);
                         //Send the proper header information along with the request
@@ -28,16 +60,21 @@
 
                     xhr.send(params);
                    
-                    textArea.innerHTML= " ";
+                    textArea.textContent= " ";
                 }
                 ).call(document.getElementById('course1'), event);
             });
     </script>
-         <textarea name="paragraph_text2" cols="50" rows="10"></textarea> 
+    
+        <nav style ="float:left">
+         <textarea name="paragraph_text2" cols="50" rows="10"></textarea>
+         </br>
          <button > Course 2 send</button> 
-         </br> 
+        </nav>
+         
          
     </body>
+   
     
     
 </html>

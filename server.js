@@ -58,6 +58,31 @@ router.route('/message').post(function(req, res)
 
             res.json(bears);
         });
+    })
+    
+   router.route('/message/:message_id')
+     .delete(function(req, res) {
+        message.remove({
+            _id: req.params.message_id
+        },
+        function(err, bear) {
+            if (err)
+                {
+                    res.send(err);
+                }
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    })
+    
+      .get(function(req, res) {
+        message.findById(req.params.message_id, function(err, bear) {
+            if (err)
+                {    
+                    res.send(err);
+                }
+            res.json(bear);
+        });
     });
     
  

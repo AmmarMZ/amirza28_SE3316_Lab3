@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset ="utf-8">
+        <script type = "text/javascript" src="static/script.js"></script>
+    </head>
+    
+    <body>
+        
+         <textarea id="paragraph_text1" cols="50" rows="10"></textarea> 
+         <button id = "course1" > Course 1 send</button>  
+         </br>
+        <script type="text/javascript">
+            document.getElementById('course1').addEventListener("click", function(event) 
+            {
+                (function(event)
+                {
+                    
+                    var textArea = document.getElementById('paragraph_text1');
+                    var text = textArea.value;
+                    
+                    var url = "https://lab3-ammarmz.c9users.io:8080/api/message";
+                    var params = "name: HELLO" + text;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", url, true);
+                        //Send the proper header information along with the request
+                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                    xhr.send(params);
+                   
+                    textArea.innerHTML= " ";
+                }
+                ).call(document.getElementById('course1'), event);
+            });
+    </script>
+         <textarea name="paragraph_text2" cols="50" rows="10"></textarea> 
+         <button > Course 2 send</button> 
+         </br> 
+         
+    </body>
+    
+    
+</html>

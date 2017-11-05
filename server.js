@@ -1,9 +1,12 @@
 // call the packages we need
+
 var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var message     = require('./app/models/message');
-var course1     = require('./app/models/course1')
+var course1     = require('./app/models/course1');
+var course2     = require('./app/models/course2');
+var sanitizeHtml = require('sanitize-html');
 
 
 var mongoose   = require('mongoose');
@@ -37,8 +40,10 @@ app.use('/' , express.static('static'));
 router.route('/course1').post(function(req, res) 
 {
     var bear = new course1();      // create a new instance of the Bear model
-    bear.name = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
-    bear.date = req.body.date;
+    bear.name = sanitizeHtml(req.body.name);  // set the bears name (comes from the request // save the bear and check for errors
+   
+   
+    bear.date = new Date();
     bear.save(function(err) 
     {
         if (err)
@@ -48,7 +53,6 @@ router.route('/course1').post(function(req, res)
         }
             res.json({ message: 'Message created!' });
         });
-
     }) 
     .get(function(req, res) 
     {
@@ -87,6 +91,62 @@ router.route('/course1').post(function(req, res)
             res.json(bear);
         });
     });
+    
+    
+router.route('/course2').post(function(req, res) 
+{
+    var bear = new course2();      // create a new instance of the Bear model
+    bear.name = sanitizeHtml(req.body.name);  // set the bears name (comes from the request // save the bear and check for errors
+    bear.date = new Date();
+    bear.save(function(err) 
+    {
+        if (err)
+        {
+            res.send(err);
+            
+        }
+            res.json({ message: 'Message created!' });
+        });
+
+    }) 
+    .get(function(req, res) 
+    {
+        course2.find(function(err, bears)
+        {
+            if (err)
+            {
+                res.send(err);
+            }
+
+            res.json(bears);
+        });
+    });
+    
+   router.route('/course2/:course2_id')
+     .delete(function(req, res) {
+        course2.remove({
+            _id: req.params.course2_id
+        },
+        function(err, bear) {
+            if (err)
+                {
+                    res.send(err);
+                }
+
+            res.json({ message: 'Successfully deleted' });
+        });
+    })
+    
+      .get(function(req, res) {
+        message.findById(req.params.m_id, function(err, bear) {
+            if (err)
+                {    
+                    res.send(err);
+                }
+            res.json(bear);
+        });
+    });
+    
     
  
 // REGISTER OUR ROUTES -------------------------------

@@ -9,23 +9,25 @@
         <nav style = "float:right">
          <textarea id="paragraph_text1" cols="50" rows="10"> </textarea> 
          </br>
-         <button style id = "course1" > Course 1 send</button>
+         <button  id = "course1" >Course 1 send</button>
          <div id = 'course1Header'> Header for Course 1</div>
          <ol id = "course1List">
          </ol>
          </nav>
         
         <script type="text/javascript">
-                Date.prototype.yyyymmdd = function() 
-                {
-                  var mm = this.getMonth() + 1; // getMonth() is zero-based
-                  var dd = this.getDate();
-                
-                  return [this.getFullYear(),
-                          (mm>9 ? '' : '0') + mm,
-                          (dd>9 ? '' : '0') + dd
-                 ].join('');
-                    };
+            
+            Number.prototype.padLeft = function(base,chr){
+    var  len = (String(base || 10).length - String(this).length)+1;
+    return len > 0? new Array(len).join(chr || '0')+this : this;}
+    
+    var d = new Date,
+    dformat = [d.getMonth()+1,
+               d.getDate(),
+               d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes(),
+               d.getSeconds()].join(':');
                 
         
             document.getElementById('course1').addEventListener("click", function(event) 
@@ -34,32 +36,89 @@
                 {
                     var textArea = document.getElementById('paragraph_text1');
                     var text = textArea.value;
-                    
-                    var url = "https://lab3-ammarmz.c9users.io:8080/api/course1";
-                    var date = new Date;
-                    
-                    var params = "name=".concat(text).concat("&date=".concat(date.yyyymmdd()));
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", url, true);
-                        //Send the proper header information along with the request
-                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-                    xhr.send(params);
-                    textArea.value = " ";
-                    window.location.reload(true);
+                    if (text.length > 200 || text.length == 0)
+                    {
+                        alert("Input is invalid");
+                         textArea.value = " ";
+                    }
+                    else
+                    {
+                        var url = "https://lab3-ammarmz.c9users.io:8080/api/course1";
+                        var date = new Date;
+                        
+                        var params = "name=".concat(text).concat("&date=".concat(d));
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", url, true);
+                            //Send the proper header information along with the request
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    
+                        xhr.send(params);
+                        textArea.value = " ";
+                        window.location.reload(true);
+                    }
                 }
                 ).call(document.getElementById('course1'), event);
             });
+            
+         
     </script>
     
         <nav style ="float:left">
-         <textarea name="paragraph_text2" cols="50" rows="10"></textarea>
+         <textarea id="paragraph_text2" cols="50" rows="10"></textarea>
          </br>
-         <button > Course 2 send</button> 
+         <button id = "course2">Course 2 send</button>
+         <div id = 'course2Header'> Header for Course 2</div>
+         <ol id = "course2List">
+         </ol>
         </nav>
-         
-         
+        
     </body>
+    
+     <script type="text/javascript">
+     
+      var d = new Date,
+    dformat = [d.getMonth()+1,
+               d.getDate(),
+               d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes(),
+               d.getSeconds()].join(':');
+     
+            
+        
+            document.getElementById('course2').addEventListener("click", function(event) 
+            {
+                (function(event)
+                {
+                    var textArea = document.getElementById('paragraph_text2');
+                    var text = textArea.value;
+                    
+                      if (text.length > 200 || text.length == 0 )
+                    {
+                        alert("Input is invalid");
+                         textArea.value = " ";
+                    }
+                    else
+                    {
+                        var url = "https://lab3-ammarmz.c9users.io:8080/api/course2";
+                        var date = new Date;
+                        
+                        var params = "name=".concat(text).concat("&date=".concat(d));
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", url, true);
+                            //Send the proper header information along with the request
+                        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    
+                        xhr.send(params);
+                        textArea.value = " ";
+                        window.location.reload(true);
+                    }
+                }
+                ).call(document.getElementById('course2'), event);
+            });
+
+     
+        </script>
    
     
     

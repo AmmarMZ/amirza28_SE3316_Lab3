@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset ="utf-8">
+        <script type = "text/javascript" src = "https://lab3-ammarmz.c9users.io:8080/script.js"></script>
     </head>
     
     <body>
@@ -11,39 +12,22 @@
          <button style id = "course1" > Course 1 send</button>
          <div id = 'course1Header'> Header for Course 1</div>
          <ol id = "course1List">
-              <script type="text/javascript">
-                
-                    var url = "https://lab3-ammarmz.c9users.io:8080/api/message";
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", url);
-                    xhr.send(null);
-                    
-                    
-                    
-                    xhr.addEventListener('load',function()
-                    {
-                       var arr = xhr.responseText.split(',')
-                       
-                       for (var i in arr)
-                       {
-                            if ((i - 1)%3 ==0)
-                            {
-                                var ul = document.getElementById("course1List");
-                                var li = document.createElement("li");
-                                li.appendChild(document.createTextNode(arr[i]));
-                                ul.appendChild(li);
-                            }
-                       }
-                       
-                    });
-            
-                
-              </script>
-             
          </ol>
          </nav>
         
         <script type="text/javascript">
+                Date.prototype.yyyymmdd = function() 
+                {
+                  var mm = this.getMonth() + 1; // getMonth() is zero-based
+                  var dd = this.getDate();
+                
+                  return [this.getFullYear(),
+                          (mm>9 ? '' : '0') + mm,
+                          (dd>9 ? '' : '0') + dd
+                 ].join('');
+                    };
+                
+        
             document.getElementById('course1').addEventListener("click", function(event) 
             {
                 (function(event)
@@ -51,16 +35,18 @@
                     var textArea = document.getElementById('paragraph_text1');
                     var text = textArea.value;
                     
-                    var url = "https://lab3-ammarmz.c9users.io:8080/api/message";
-                    var params = "name=".concat(text);
+                    var url = "https://lab3-ammarmz.c9users.io:8080/api/course1";
+                    var date = new Date;
+                    
+                    var params = "name=".concat(text).concat("&date=".concat(date.yyyymmdd()));
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", url, true);
                         //Send the proper header information along with the request
                     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
                     xhr.send(params);
-                   
-                    textArea.textContent= " ";
+                    textArea.value = " ";
+                    window.location.reload(true);
                 }
                 ).call(document.getElementById('course1'), event);
             });

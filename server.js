@@ -3,6 +3,8 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var message     = require('./app/models/message');
+var course1     = require('./app/models/course1')
+
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost:27017'); 
@@ -32,10 +34,11 @@ app.use('/' , express.static('static'));
 
 // more routes for our API will happen here
 
-router.route('/message').post(function(req, res) 
+router.route('/course1').post(function(req, res) 
 {
-    var bear = new message();      // create a new instance of the Bear model
+    var bear = new course1();      // create a new instance of the Bear model
     bear.name = req.body.name;  // set the bears name (comes from the request // save the bear and check for errors
+    bear.date = req.body.date;
     bear.save(function(err) 
     {
         if (err)
@@ -49,7 +52,7 @@ router.route('/message').post(function(req, res)
     }) 
     .get(function(req, res) 
     {
-        message.find(function(err, bears)
+        course1.find(function(err, bears)
         {
             if (err)
             {
@@ -58,12 +61,12 @@ router.route('/message').post(function(req, res)
 
             res.json(bears);
         });
-    })
+    });
     
-   router.route('/message/:message_id')
+   router.route('/course1/:course1_id')
      .delete(function(req, res) {
-        message.remove({
-            _id: req.params.message_id
+        course1.remove({
+            _id: req.params.course1_id
         },
         function(err, bear) {
             if (err)
@@ -76,7 +79,7 @@ router.route('/message').post(function(req, res)
     })
     
       .get(function(req, res) {
-        message.findById(req.params.message_id, function(err, bear) {
+        message.findById(req.params.m_id, function(err, bear) {
             if (err)
                 {    
                     res.send(err);
